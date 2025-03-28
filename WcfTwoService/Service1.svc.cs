@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
+using System.ServiceModel.Web;
 
 namespace WcfTwoService
 {
@@ -71,6 +72,36 @@ namespace WcfTwoService
                     return reader.ReadToEnd();
                 }
             }
+        }
+        private const string VerifyToken = "JorgeMH"; // Token de verificación
+
+        public Stream VerifyWebhook(string hub_mode, string hub_verify_token, string hub_challenge)
+        {
+            // Verifica que el token de verificación coincida
+            if (hub_mode == "subscribe" && hub_verify_token == VerifyToken)
+            {
+                // Configura la respuesta como text/plain
+                WebOperationContext.Current.OutgoingResponse.ContentType = "text/plain";
+
+                // Devuelve el challenge como un Stream
+                byte[] responseBytes = Encoding.UTF8.GetBytes(hub_challenge);
+                return new MemoryStream(responseBytes);
+            }
+
+            // Si el token no coincide, devuelve un error 403
+            WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+            return new MemoryStream(Encoding.UTF8.GetBytes("Token de verificacion no valido"));
+        }
+
+        public string ReceiveNotification(string payload)
+        {
+            // Procesa la notificación recibida
+            Console.WriteLine("Notificación recibida: " + payload);
+
+            // Aquí puedes agregar lógica para manejar la notificación
+
+            // Devuelve una respuesta exitosa
+            return "Notificación recibida correctamente";
         }
     }
 }
