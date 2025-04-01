@@ -9,6 +9,13 @@ using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 using System.ServiceModel.Web;
+using System.CodeDom;
+
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Diagnostics;
+using System.Web.Script.Serialization;
 
 namespace WcfTwoService
 {
@@ -16,10 +23,148 @@ namespace WcfTwoService
 	// NOTE: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione Service1.svc o Service1.svc.cs en el Explorador de soluciones e inicie la depuración.
 	public class Service1 : IService1
 	{
+        
         public Service1()
         {
-            // Habilita TLS 1.2
-            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072; // TLS 1.2
+            // Habilitar TLS 1.2
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            // Inicializa la configuración (se carga automáticamente al primer acceso)
+            try
+            {
+                WhatsAppConfig.EnsureInitialized();
+                
+                // Opcional: Test de conexión a BD al iniciar
+                using (SqlConnection conn = new SqlConnection(WhatsAppConfig.ConnectionString))
+                {
+                    conn.Open();
+                    // Si llega aquí, la conexión es exitosa
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en constructor Service1: " + ex.ToString());
+            }
+        }
+
+         public string SendTemplateBillingMessage(string phoneNumber, string customerName, string fileNamePdf, string fileNameXml)
+        {
+            try
+            {
+                WhatsAppConfig.EnsureInitialized(); // Doble verificación por seguridad
+                string accessToken = WhatsAppConfig.AccessToken;
+
+                if (string.IsNullOrEmpty(accessToken))
+                {
+                    throw new ApplicationException("No se pudo obtener el token de acceso");
+                }
+                // Valores por defecto (puedes parametrizarlos si es necesario)
+                return SendMessage(
+                    accessToken: accessToken,
+                    templateName: "efact_test",
+                    recipientName: customerName,
+                    fileNamePdf: fileNamePdf,
+                    fileNameXml: fileNameXml,
+                    phoneNumber: phoneNumber);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en SendTemplateMessage: " + ex.ToString());
+            }
+        }
+
+        private string SendMessage(string accessToken, string phoneNumber, string templateName, string recipientName, string fileNamePdf, string fileNameXml)
+        {
+            string apiUrl = $"{WhatsAppConfig.ApiUrl}/{WhatsAppConfig.Version}/{WhatsAppConfig.PhoneNumberId}/messages";
+
+            var payload = new
+            {
+                messaging_product = "whatsapp",
+                to = phoneNumber, // Considera hacer esto configurable
+                type = "template",
+                template = new
+                {
+                    name = templateName,
+                    language = new { code = "es" },
+                    components = new object[]
+                    {
+                        new
+                        {
+                            type = "body",
+                            parameters = new object[]
+                            {
+                                new { type = "text", text = recipientName }
+                            }
+                        },
+                        new
+                        {
+                            type = "button",
+                            sub_type = "url",
+                            index = "0",
+                            parameters = new object[]
+                            {
+                                new { type = "text", text = fileNamePdf }
+                            }
+                        },
+                        new
+                        {
+                            type = "button",
+                            sub_type = "url",
+                            index = "1",
+                            parameters = new object[]
+                            {
+                                new { type = "text", text = fileNameXml }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Serialización con JavaScriptSerializer (nativo en .NET 3.5)
+            string jsonPayload = new JavaScriptSerializer().Serialize(payload);
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(apiUrl);
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.Headers["Authorization"] = "Bearer " + accessToken;
+
+            byte[] data = Encoding.UTF8.GetBytes(jsonPayload);
+            request.ContentLength = data.Length;
+
+            using (Stream stream = request.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+            }
+
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+            catch (WebException webEx)
+            {
+                using (StreamReader reader = new StreamReader(webEx.Response.GetResponseStream()))
+                {
+                    string errorResponse = reader.ReadToEnd();
+                    LogError($"Error WhatsApp API: {errorResponse}");
+                    throw new ApplicationException($"Error al enviar mensaje: {errorResponse}");
+                }
+            }
+        }
+        private void LogError(string message)
+        {
+            try
+            {
+                string logPath = @"C:\Logs\WcfService_errors.txt";
+                string logMessage = $"[{DateTime.Now}] {message}\n\n";
+                File.AppendAllText(logPath, logMessage);
+            }
+            catch
+            {
+                // Si falla el logging, no hacer nada
+            }
         }
 
         public string SendTemplateMessage(string phoneNumber, string token, string templateId)
@@ -106,33 +251,3 @@ namespace WcfTwoService
     }
 }
 
-// Clases para serialización JSON
-[DataContract]
-public class WhatsAppMessage
-{
-    [DataMember(Name = "messaging_product")]
-    public string Messaging_product { get; set; }
-
-    [DataMember(Name = "to")]
-    public string To { get; set; }
-
-    [DataMember(Name = "template")]
-    public Template Template { get; set; }
-}
-
-[DataContract]
-public class Template
-{
-    [DataMember(Name = "name")]
-    public string Name { get; set; }
-
-    [DataMember(Name = "language")]
-    public Language Language { get; set; }
-}
-
-[DataContract]
-public class Language
-{
-    [DataMember(Name = "code")]
-    public string Code { get; set; }
-}

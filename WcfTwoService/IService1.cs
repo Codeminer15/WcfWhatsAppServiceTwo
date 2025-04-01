@@ -16,8 +16,16 @@ namespace WcfTwoService
                UriTemplate = "SendTemplateMessage",
                RequestFormat = WebMessageFormat.Json,
                ResponseFormat = WebMessageFormat.Json,
-               BodyStyle = WebMessageBodyStyle.Wrapped)] // Añade esta línea
+               BodyStyle = WebMessageBodyStyle.Wrapped)] 
         string SendTemplateMessage(string phoneNumber, string token, string templateId);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "SendTemplateBillingMessage",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped)]
+        string SendTemplateBillingMessage(string phoneNumber, string customerName, string fileNamePdf, string fileNameXml);
 
         // Método para verificar el webhook (GET)
         [OperationContract]

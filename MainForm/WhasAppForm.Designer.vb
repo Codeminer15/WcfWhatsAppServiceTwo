@@ -22,7 +22,7 @@ Partial Class WhasAppForm
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnSendWhatsApp = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -36,16 +36,19 @@ Partial Class WhasAppForm
         Me.Label5 = New System.Windows.Forms.Label()
         Me.lblPGH = New System.Windows.Forms.Label()
         Me.lblXGH = New System.Windows.Forms.Label()
+        Me.lblServiceStatus = New System.Windows.Forms.Label()
+        Me.btnTestConnection = New System.Windows.Forms.Button()
+        Me.btnViewLogs = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
-        'Button1
+        'btnSendWhatsApp
         '
-        Me.Button1.Location = New System.Drawing.Point(580, 354)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 0
-        Me.Button1.Text = "btnEnviar"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btnSendWhatsApp.Location = New System.Drawing.Point(580, 354)
+        Me.btnSendWhatsApp.Name = "btnSendWhatsApp"
+        Me.btnSendWhatsApp.Size = New System.Drawing.Size(75, 23)
+        Me.btnSendWhatsApp.TabIndex = 0
+        Me.btnSendWhatsApp.Text = "Enviar"
+        Me.btnSendWhatsApp.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -160,11 +163,41 @@ Partial Class WhasAppForm
         Me.lblXGH.TabIndex = 13
         Me.lblXGH.Text = "Xml"
         '
+        'lblServiceStatus
+        '
+        Me.lblServiceStatus.AutoSize = True
+        Me.lblServiceStatus.Location = New System.Drawing.Point(413, 335)
+        Me.lblServiceStatus.Name = "lblServiceStatus"
+        Me.lblServiceStatus.Size = New System.Drawing.Size(39, 13)
+        Me.lblServiceStatus.TabIndex = 14
+        Me.lblServiceStatus.Text = "Label6"
+        '
+        'btnTestConnection
+        '
+        Me.btnTestConnection.Location = New System.Drawing.Point(295, 330)
+        Me.btnTestConnection.Name = "btnTestConnection"
+        Me.btnTestConnection.Size = New System.Drawing.Size(75, 23)
+        Me.btnTestConnection.TabIndex = 15
+        Me.btnTestConnection.Text = "Conexion"
+        Me.btnTestConnection.UseVisualStyleBackColor = True
+        '
+        'btnViewLogs
+        '
+        Me.btnViewLogs.Location = New System.Drawing.Point(201, 331)
+        Me.btnViewLogs.Name = "btnViewLogs"
+        Me.btnViewLogs.Size = New System.Drawing.Size(75, 23)
+        Me.btnViewLogs.TabIndex = 16
+        Me.btnViewLogs.Text = "Button1"
+        Me.btnViewLogs.UseVisualStyleBackColor = True
+        '
         'WhasAppForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.btnViewLogs)
+        Me.Controls.Add(Me.btnTestConnection)
+        Me.Controls.Add(Me.lblServiceStatus)
         Me.Controls.Add(Me.lblXGH)
         Me.Controls.Add(Me.lblPGH)
         Me.Controls.Add(Me.Label5)
@@ -178,7 +211,7 @@ Partial Class WhasAppForm
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.btnSendWhatsApp)
         Me.Name = "WhasAppForm"
         Me.Text = "WhasAppForm"
         Me.ResumeLayout(False)
@@ -186,7 +219,7 @@ Partial Class WhasAppForm
 
     End Sub
 
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btnSendWhatsApp As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
@@ -200,4 +233,7 @@ Partial Class WhasAppForm
     Friend WithEvents Label5 As Label
     Friend WithEvents lblPGH As Label
     Friend WithEvents lblXGH As Label
+    Friend WithEvents lblServiceStatus As Label
+    Friend WithEvents btnTestConnection As Button
+    Friend WithEvents btnViewLogs As Button
 End Class
