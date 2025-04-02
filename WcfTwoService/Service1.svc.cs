@@ -19,25 +19,22 @@ using System.Web.Script.Serialization;
 
 namespace WcfTwoService
 {
-	// NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de clase "Service1" en el código, en svc y en el archivo de configuración.
-	// NOTE: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione Service1.svc o Service1.svc.cs en el Explorador de soluciones e inicie la depuración.
 	public class Service1 : IService1
 	{
-        
         public Service1()
         {
-            // Habilitar TLS 1.2
+            // Habilitar TLS 1.2 para mejorar la seguridad
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
-            // Inicializa la configuración (se carga automáticamente al primer acceso)
+            
             try
             {
+                // Inicializa la configuración cargando los parámetros desde la BD
                 WhatsAppConfig.EnsureInitialized();
                 
-                // Opcional: Test de conexión a BD al iniciar
+                // Test de conexión a BD al iniciar
                 using (SqlConnection conn = new SqlConnection(WhatsAppConfig.ConnectionString))
                 {
                     conn.Open();
-                    // Si llega aquí, la conexión es exitosa
                 }
             }
             catch (Exception ex)
@@ -45,26 +42,26 @@ namespace WcfTwoService
                 throw new Exception("Error en constructor Service1: " + ex.ToString());
             }
         }
-
-         public string SendTemplateBillingMessage(string phoneNumber, string customerName, string fileNamePdf, string fileNameXml)
+        /// Envía un mensaje de facturación utilizando una plantilla predefinida en WhatsApp.
+        public string SendTemplateBillingMessage(string phoneNumber, string customerName, string fileNamePdf, string fileNameXml)
         {
             try
-            {
-                WhatsAppConfig.EnsureInitialized(); // Doble verificación por seguridad
-                string accessToken = WhatsAppConfig.AccessToken;
-
-                if (string.IsNullOrEmpty(accessToken))
+            {   // Asegura que la configuración está cargada
+                WhatsAppConfig.EnsureInitialized(); 
+                
+                if (string.IsNullOrEmpty(WhatsAppConfig.AccessToken))
                 {
                     throw new ApplicationException("No se pudo obtener el token de acceso");
                 }
-                // Valores por defecto (puedes parametrizarlos si es necesario)
+                // Valores por defecto
                 return SendMessage(
-                    accessToken: accessToken,
-                    templateName: "efact_test",
-                    recipientName: customerName,
-                    fileNamePdf: fileNamePdf,
-                    fileNameXml: fileNameXml,
-                    phoneNumber: phoneNumber);
+                    WhatsAppConfig.AccessToken,
+                    phoneNumber,
+                    "efact_test",
+                    customerName,
+                    fileNamePdf,
+                    fileNameXml
+                    );
             }
             catch (Exception ex)
             {
@@ -72,6 +69,7 @@ namespace WcfTwoService
             }
         }
 
+        /// Realiza la petición HTTP a la API de WhatsApp para enviar un mensaje usando la plantilla efact_test
         private string SendMessage(string accessToken, string phoneNumber, string templateName, string recipientName, string fileNamePdf, string fileNameXml)
         {
             string apiUrl = $"{WhatsAppConfig.ApiUrl}/{WhatsAppConfig.Version}/{WhatsAppConfig.PhoneNumberId}/messages";
@@ -122,28 +120,31 @@ namespace WcfTwoService
             // Serialización con JavaScriptSerializer (nativo en .NET 3.5)
             string jsonPayload = new JavaScriptSerializer().Serialize(payload);
 
+            // Configuración de la solicitud HTTP
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(apiUrl);
             request.Method = "POST";
             request.ContentType = "application/json";
             request.Headers["Authorization"] = "Bearer " + accessToken;
 
+            // Conversión del JSON a bytes para enviarlo en la petición
             byte[] data = Encoding.UTF8.GetBytes(jsonPayload);
             request.ContentLength = data.Length;
 
+            // Envío de los datos en el cuerpo de la petición
             using (Stream stream = request.GetRequestStream())
             {
                 stream.Write(data, 0, data.Length);
             }
 
-            try
+            try // Captura la respuesta de la API de WhatsApp
             {
                 using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
-                    return reader.ReadToEnd();
+                    return reader.ReadToEnd(); // Devuelve la respuesta como cadena de texto
                 }
             }
-            catch (WebException webEx)
+            catch (WebException webEx) // Captura errores en la respuesta HTTP
             {
                 using (StreamReader reader = new StreamReader(webEx.Response.GetResponseStream()))
                 {
@@ -153,20 +154,6 @@ namespace WcfTwoService
                 }
             }
         }
-        private void LogError(string message)
-        {
-            try
-            {
-                string logPath = @"C:\Logs\WcfService_errors.txt";
-                string logMessage = $"[{DateTime.Now}] {message}\n\n";
-                File.AppendAllText(logPath, logMessage);
-            }
-            catch
-            {
-                // Si falla el logging, no hacer nada
-            }
-        }
-
         public string SendTemplateMessage(string phoneNumber, string token, string templateId)
         {
             try
@@ -218,35 +205,20 @@ namespace WcfTwoService
                 }
             }
         }
-        private const string VerifyToken = "JorgeMH"; // Token de verificación
 
-        public Stream VerifyWebhook(string hub_mode, string hub_verify_token, string hub_challenge)
+        /// Registra errores en un archivo de log
+        private void LogError(string message)
         {
-            // Verifica que el token de verificación coincida
-            if (hub_mode == "subscribe" && hub_verify_token == VerifyToken)
+            try
             {
-                // Configura la respuesta como text/plain
-                WebOperationContext.Current.OutgoingResponse.ContentType = "text/plain";
-
-                // Devuelve el challenge como un Stream
-                byte[] responseBytes = Encoding.UTF8.GetBytes(hub_challenge);
-                return new MemoryStream(responseBytes);
+                string logPath = @"C:\Logs\WcfService_errors.txt";
+                string logMessage = $"[{DateTime.Now}] {message}\n\n";
+                File.AppendAllText(logPath, logMessage);
             }
-
-            // Si el token no coincide, devuelve un error 403
-            WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-            return new MemoryStream(Encoding.UTF8.GetBytes("Token de verificacion no valido"));
-        }
-
-        public string ReceiveNotification(string payload)
-        {
-            // Procesa la notificación recibida
-            Console.WriteLine("Notificación recibida: " + payload);
-
-            // Aquí puedes agregar lógica para manejar la notificación
-
-            // Devuelve una respuesta exitosa
-            return "Notificación recibida correctamente";
+            catch
+            {
+                // Si falla el logging, no hacer nada
+            }
         }
     }
 }

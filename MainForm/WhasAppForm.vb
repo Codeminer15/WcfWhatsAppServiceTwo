@@ -1,21 +1,18 @@
 ﻿Imports System.IO
 Imports System.Net
 Imports System.ServiceModel
-Imports System.ServiceModel.Description
-Imports System.ServiceModel.Web
 Imports System.Text
 Imports MainForm.ServiceWhatsAppCloudApi
-
 
 
 Public Class WhasAppForm
     ' Constante para TLS 1.2 (no disponible directamente en .NET 3.5)
     Private Const Tls12 As SecurityProtocolType = CType(&HC00, SecurityProtocolType)
-
+    Private ReadOnly logPath As String = "C:\Logs\WhatsAppService.log" 'Crear Carpeta si no se ha creado
     Private rutaLocalGit As String = "D:\Projects\Facturas_Prueba" ' Ruta donde está el repo
     Private urlGitHub As String = "https://github.com/codeminer15/Facturas_Prueba/"
 
-    ' Endpoints disponibles para probar
+    ' Endpoints disponibles para probar - Solo Test
     Private ReadOnly endpoints As New List(Of String) From {
         "http://localhost/svcWebService/Service1.svc",
         "https://localhost:50721/svcWebService/Service1.svc"
@@ -36,6 +33,15 @@ Public Class WhasAppForm
         ' Validar datos básicos primero
         If String.IsNullOrEmpty(txtPhoneNumber.Text) OrElse String.IsNullOrEmpty(txtName.Text) Then
             MessageBox.Show("Por favor ingrese el número y nombre del cliente", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        'Normalizar el número eliminando espacio y caracteres no númericos
+        Dim phonenumber As String = New String(txtPhoneNumber.Text.Where(Function(c) Char.IsDigit(c)).ToArray())
+
+        'Validar longitud del número
+        If phonenumber.Length <> 12 Then
+            MessageBox.Show("El número de teléfono debe tener 12 dígitos.", "Número inválido", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
         End If
 
@@ -60,8 +66,23 @@ Public Class WhasAppForm
             ' Si no están en GitHub, subirlos
             If Not SubirArchivosAGitHub(rutaXML, rutaPDF) Then
                 MessageBox.Show("No se pudieron subir los archivos a GitHub", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+                ' Desmarcar los checkboxes si hay error
+                CheckBoxPdf.Checked = False
+                CheckBoxXml.Checked = False
                 Return
             End If
+        End If
+
+        ' Marcar los checkboxes como verificados
+        CheckBoxPdf.Checked = True
+        CheckBoxXml.Checked = True
+
+        ' Validar que ambos checkboxes estén marcados
+        If Not CheckBoxPdf.Checked Or Not CheckBoxXml.Checked Then
+            MessageBox.Show("Por favor, verifique que ambos documentos han sido subidos a GitHub marcando las casillas correspondientes.",
+                       "Documentos no verificados", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
         End If
 
         ' Actualizar las etiquetas con las URLs de GitHub
@@ -125,9 +146,11 @@ Public Class WhasAppForm
             ' Configurar el proxy para Fiddler
             Dim proxy As New WebProxy("127.0.0.1", 8888)
 
-            ' Configurar la solicitud HTTP
+            ' Configurar la solicitud HTTP - Crea una solicitud HTTP manual
             Dim request As HttpWebRequest = DirectCast(WebRequest.Create("http://localhost/svcWebService/Service1.svc/SendTemplateBillingMessage"), HttpWebRequest)
             request.Proxy = proxy
+
+            ' Configura método Post y headers
             request.Method = "POST"
             request.ContentType = "application/json"
 
@@ -136,15 +159,16 @@ Public Class WhasAppForm
             ServicePointManager.ServerCertificateValidationCallback =
         Function(sender, certificate, chain, sslPolicyErrors) True
 
-            ' Crear el JSON manualmente
+            ' Crear el JSON manualmente y serealizar
             Dim jsonPayload As String = String.Format(
         "{{""phoneNumber"":""{0}"",""customerName"":""{1}"",""fileNamePdf"":""{2}"",""fileNameXml"":""{3}""}}",
         phoneNumber, customerName, fileNamePdf, fileNameXml)
 
-            ' Convertir a bytes y enviar
+            ' Convertir a bytes
             Dim data As Byte() = Encoding.UTF8.GetBytes(jsonPayload)
             request.ContentLength = data.Length
 
+            'Enviar datos
             Using stream As Stream = request.GetRequestStream()
                 stream.Write(data, 0, data.Length)
             End Using
@@ -171,43 +195,7 @@ Public Class WhasAppForm
             MessageBox.Show("Error general: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
-
-    Private Sub BtnGitHub_Click(sender As Object, e As EventArgs) Handles btnGitHub.Click
-        ' Obtener rutas locales
-        Dim rutaXML As String = lblXml.Text
-        Dim rutaPDF As String = lblPdf.Text
-
-        ' Verificar que los archivos existen antes de subirlos
-        If Not File.Exists(rutaXML) Or Not File.Exists(rutaPDF) Then
-            MessageBox.Show("No se encontraron los archivos en la ruta especificada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Exit Sub
-        End If
-
-        ' Copiar los archivos al repositorio local de GitHub
-        Try
-            File.Copy(rutaXML, Path.Combine(rutaLocalGit, Path.GetFileName(rutaXML)), True)
-            File.Copy(rutaPDF, Path.Combine(rutaLocalGit, Path.GetFileName(rutaPDF)), True)
-
-            ' Ejecutar git pull para traer los cambios más recientes
-            EjecutarComandoGit("git pull --rebase")
-
-            ' Ejecutar comandos Git para agregar, confirmar y subir archivos
-            EjecutarComandoGit("git add .")
-            EjecutarComandoGit("git commit -m ""Subida de factura desde VB.NET""")
-            EjecutarComandoGit("git push origin main")
-
-            ' Mostrar mensaje de éxito
-            MessageBox.Show("Archivos subidos correctamente a GitHub.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-            ' Mostrar la URL pública de los archivos en etiquetas
-            lblXGH.Text = urlGitHub & Path.GetFileName(rutaXML)
-            lblPGH.Text = urlGitHub & Path.GetFileName(rutaPDF)
-
-        Catch ex As Exception
-            MessageBox.Show("Error al subir los archivos: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
-
+    'Pruebas de llamadas al servicio a través de la url donde se aloja
     Private Sub btnTestConnection_Click(sender As Object, e As EventArgs) Handles btnTestConnection.Click
         ' Lista de endpoints a probar
         Dim endpoints As New List(Of String) From {
@@ -270,7 +258,6 @@ Public Class WhasAppForm
         End Try
     End Function
 
-    Private ReadOnly logPath As String = "C:\Logs\WhatsAppService.log"
     ' Método para escribir en el log
     Private Sub WriteLog(message As String)
         Try
@@ -330,5 +317,10 @@ Public Class WhasAppForm
         Catch ex As Exception
             MessageBox.Show($"Error al abrir logs: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub BtnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
+        Me.DialogResult = DialogResult.Cancel
+        Me.Close()
     End Sub
 End Class

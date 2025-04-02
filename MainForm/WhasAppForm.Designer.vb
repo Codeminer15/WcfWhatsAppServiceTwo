@@ -32,20 +32,24 @@ Partial Class WhasAppForm
         Me.lblPdf = New System.Windows.Forms.Label()
         Me.lblXml = New System.Windows.Forms.Label()
         Me.lblState = New System.Windows.Forms.Label()
-        Me.btnGitHub = New System.Windows.Forms.Button()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.lblPGH = New System.Windows.Forms.Label()
         Me.lblXGH = New System.Windows.Forms.Label()
         Me.lblServiceStatus = New System.Windows.Forms.Label()
         Me.btnTestConnection = New System.Windows.Forms.Button()
         Me.btnViewLogs = New System.Windows.Forms.Button()
+        Me.BtnCancel = New System.Windows.Forms.Button()
+        Me.CheckBoxPdf = New System.Windows.Forms.CheckBox()
+        Me.CheckBoxXml = New System.Windows.Forms.CheckBox()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'btnSendWhatsApp
         '
-        Me.btnSendWhatsApp.Location = New System.Drawing.Point(580, 354)
+        Me.btnSendWhatsApp.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.btnSendWhatsApp.Location = New System.Drawing.Point(639, 351)
         Me.btnSendWhatsApp.Name = "btnSendWhatsApp"
-        Me.btnSendWhatsApp.Size = New System.Drawing.Size(75, 23)
+        Me.btnSendWhatsApp.Size = New System.Drawing.Size(109, 40)
         Me.btnSendWhatsApp.TabIndex = 0
         Me.btnSendWhatsApp.Text = "Enviar"
         Me.btnSendWhatsApp.UseVisualStyleBackColor = True
@@ -53,35 +57,39 @@ Partial Class WhasAppForm
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(114, 90)
+        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.Label1.Location = New System.Drawing.Point(82, 101)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(96, 13)
+        Me.Label1.Size = New System.Drawing.Size(163, 21)
         Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Nombre del Cliente"
+        Me.Label1.Text = "Nombre del Cliente:"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(117, 142)
+        Me.Label2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(74, 147)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(104, 13)
+        Me.Label2.Size = New System.Drawing.Size(171, 21)
         Me.Label2.TabIndex = 2
-        Me.Label2.Text = "Numero de Teléfono"
+        Me.Label2.Text = "Número de Teléfono:"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(117, 205)
+        Me.Label3.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.Label3.Location = New System.Drawing.Point(134, 206)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(70, 13)
+        Me.Label3.Size = New System.Drawing.Size(111, 21)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Documentos:"
         '
         'txtName
         '
-        Me.txtName.Location = New System.Drawing.Point(251, 90)
+        Me.txtName.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtName.Location = New System.Drawing.Point(264, 104)
         Me.txtName.Name = "txtName"
-        Me.txtName.Size = New System.Drawing.Size(100, 20)
+        Me.txtName.Size = New System.Drawing.Size(207, 29)
         Me.txtName.TabIndex = 4
         '
         'Label4
@@ -95,15 +103,16 @@ Partial Class WhasAppForm
         '
         'txtPhoneNumber
         '
-        Me.txtPhoneNumber.Location = New System.Drawing.Point(251, 134)
+        Me.txtPhoneNumber.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPhoneNumber.Location = New System.Drawing.Point(264, 144)
         Me.txtPhoneNumber.Name = "txtPhoneNumber"
-        Me.txtPhoneNumber.Size = New System.Drawing.Size(100, 20)
+        Me.txtPhoneNumber.Size = New System.Drawing.Size(207, 29)
         Me.txtPhoneNumber.TabIndex = 6
         '
         'lblPdf
         '
         Me.lblPdf.AutoSize = True
-        Me.lblPdf.Location = New System.Drawing.Point(210, 194)
+        Me.lblPdf.Location = New System.Drawing.Point(261, 206)
         Me.lblPdf.Name = "lblPdf"
         Me.lblPdf.Size = New System.Drawing.Size(23, 13)
         Me.lblPdf.TabIndex = 7
@@ -112,7 +121,7 @@ Partial Class WhasAppForm
         'lblXml
         '
         Me.lblXml.AutoSize = True
-        Me.lblXml.Location = New System.Drawing.Point(210, 221)
+        Me.lblXml.Location = New System.Drawing.Point(261, 233)
         Me.lblXml.Name = "lblXml"
         Me.lblXml.Size = New System.Drawing.Size(24, 13)
         Me.lblXml.TabIndex = 8
@@ -121,34 +130,26 @@ Partial Class WhasAppForm
         'lblState
         '
         Me.lblState.AutoSize = True
-        Me.lblState.Location = New System.Drawing.Point(102, 405)
+        Me.lblState.Location = New System.Drawing.Point(117, 367)
         Me.lblState.Name = "lblState"
-        Me.lblState.Size = New System.Drawing.Size(52, 13)
+        Me.lblState.Size = New System.Drawing.Size(111, 13)
         Me.lblState.TabIndex = 9
-        Me.lblState.Text = "Estado: --"
-        '
-        'btnGitHub
-        '
-        Me.btnGitHub.Location = New System.Drawing.Point(120, 331)
-        Me.btnGitHub.Name = "btnGitHub"
-        Me.btnGitHub.Size = New System.Drawing.Size(75, 23)
-        Me.btnGitHub.TabIndex = 10
-        Me.btnGitHub.Text = "GitHub"
-        Me.btnGitHub.UseVisualStyleBackColor = True
+        Me.lblState.Text = "Estado de Archivos: --"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(120, 268)
+        Me.Label5.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.Label5.Location = New System.Drawing.Point(115, 267)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(84, 13)
+        Me.Label5.Size = New System.Drawing.Size(130, 21)
         Me.Label5.TabIndex = 11
         Me.Label5.Text = "Ruta en GitHub:"
         '
         'lblPGH
         '
         Me.lblPGH.AutoSize = True
-        Me.lblPGH.Location = New System.Drawing.Point(235, 259)
+        Me.lblPGH.Location = New System.Drawing.Point(261, 259)
         Me.lblPGH.Name = "lblPGH"
         Me.lblPGH.Size = New System.Drawing.Size(23, 13)
         Me.lblPGH.TabIndex = 12
@@ -157,7 +158,7 @@ Partial Class WhasAppForm
         'lblXGH
         '
         Me.lblXGH.AutoSize = True
-        Me.lblXGH.Location = New System.Drawing.Point(235, 284)
+        Me.lblXGH.Location = New System.Drawing.Point(261, 284)
         Me.lblXGH.Name = "lblXGH"
         Me.lblXGH.Size = New System.Drawing.Size(24, 13)
         Me.lblXGH.TabIndex = 13
@@ -166,15 +167,15 @@ Partial Class WhasAppForm
         'lblServiceStatus
         '
         Me.lblServiceStatus.AutoSize = True
-        Me.lblServiceStatus.Location = New System.Drawing.Point(413, 335)
+        Me.lblServiceStatus.Location = New System.Drawing.Point(261, 324)
         Me.lblServiceStatus.Name = "lblServiceStatus"
-        Me.lblServiceStatus.Size = New System.Drawing.Size(39, 13)
+        Me.lblServiceStatus.Size = New System.Drawing.Size(46, 13)
         Me.lblServiceStatus.TabIndex = 14
-        Me.lblServiceStatus.Text = "Label6"
+        Me.lblServiceStatus.Text = "Estado--"
         '
         'btnTestConnection
         '
-        Me.btnTestConnection.Location = New System.Drawing.Point(295, 330)
+        Me.btnTestConnection.Location = New System.Drawing.Point(180, 319)
         Me.btnTestConnection.Name = "btnTestConnection"
         Me.btnTestConnection.Size = New System.Drawing.Size(75, 23)
         Me.btnTestConnection.TabIndex = 15
@@ -183,25 +184,70 @@ Partial Class WhasAppForm
         '
         'btnViewLogs
         '
-        Me.btnViewLogs.Location = New System.Drawing.Point(201, 331)
+        Me.btnViewLogs.Location = New System.Drawing.Point(396, 362)
         Me.btnViewLogs.Name = "btnViewLogs"
         Me.btnViewLogs.Size = New System.Drawing.Size(75, 23)
         Me.btnViewLogs.TabIndex = 16
-        Me.btnViewLogs.Text = "Button1"
+        Me.btnViewLogs.Text = "Abrir Logs"
         Me.btnViewLogs.UseVisualStyleBackColor = True
+        '
+        'BtnCancel
+        '
+        Me.BtnCancel.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.BtnCancel.Location = New System.Drawing.Point(508, 351)
+        Me.BtnCancel.Name = "BtnCancel"
+        Me.BtnCancel.Size = New System.Drawing.Size(109, 40)
+        Me.BtnCancel.TabIndex = 17
+        Me.BtnCancel.Text = "Cancelar"
+        Me.BtnCancel.UseVisualStyleBackColor = True
+        '
+        'CheckBoxPdf
+        '
+        Me.CheckBoxPdf.AutoSize = True
+        Me.CheckBoxPdf.Enabled = False
+        Me.CheckBoxPdf.Location = New System.Drawing.Point(616, 90)
+        Me.CheckBoxPdf.Name = "CheckBoxPdf"
+        Me.CheckBoxPdf.Size = New System.Drawing.Size(47, 17)
+        Me.CheckBoxPdf.TabIndex = 18
+        Me.CheckBoxPdf.Text = "PDF"
+        Me.CheckBoxPdf.UseVisualStyleBackColor = True
+        '
+        'CheckBoxXml
+        '
+        Me.CheckBoxXml.AutoSize = True
+        Me.CheckBoxXml.Enabled = False
+        Me.CheckBoxXml.Location = New System.Drawing.Point(616, 115)
+        Me.CheckBoxXml.Name = "CheckBoxXml"
+        Me.CheckBoxXml.Size = New System.Drawing.Size(48, 17)
+        Me.CheckBoxXml.TabIndex = 19
+        Me.CheckBoxXml.Text = "XML"
+        Me.CheckBoxXml.UseVisualStyleBackColor = True
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(264, 180)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(424, 13)
+        Me.Label6.TabIndex = 20
+        Me.Label6.Text = "Debe incluir lada y la cadena de 10 dígitos, evitando símbolos (ejemplo: 52123456" &
+    "7890)"
         '
         'WhasAppForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.CheckBoxXml)
+        Me.Controls.Add(Me.CheckBoxPdf)
+        Me.Controls.Add(Me.BtnCancel)
         Me.Controls.Add(Me.btnViewLogs)
         Me.Controls.Add(Me.btnTestConnection)
         Me.Controls.Add(Me.lblServiceStatus)
         Me.Controls.Add(Me.lblXGH)
         Me.Controls.Add(Me.lblPGH)
         Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.btnGitHub)
         Me.Controls.Add(Me.lblState)
         Me.Controls.Add(Me.lblXml)
         Me.Controls.Add(Me.lblPdf)
@@ -213,7 +259,7 @@ Partial Class WhasAppForm
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnSendWhatsApp)
         Me.Name = "WhasAppForm"
-        Me.Text = "WhasAppForm"
+        Me.Text = "Envío de Factura - WhatsApp"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -229,11 +275,14 @@ Partial Class WhasAppForm
     Friend WithEvents lblPdf As Label
     Friend WithEvents lblXml As Label
     Friend WithEvents lblState As Label
-    Friend WithEvents btnGitHub As Button
     Friend WithEvents Label5 As Label
     Friend WithEvents lblPGH As Label
     Friend WithEvents lblXGH As Label
     Friend WithEvents lblServiceStatus As Label
     Friend WithEvents btnTestConnection As Button
     Friend WithEvents btnViewLogs As Button
+    Friend WithEvents BtnCancel As Button
+    Friend WithEvents CheckBoxPdf As CheckBox
+    Friend WithEvents CheckBoxXml As CheckBox
+    Friend WithEvents Label6 As Label
 End Class

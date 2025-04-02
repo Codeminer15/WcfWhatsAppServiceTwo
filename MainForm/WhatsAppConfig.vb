@@ -29,25 +29,25 @@ Public Class WhatsAppConfig
                 Dim querySave As String = "
                     IF EXISTS (SELECT 1 FROM UrlConfig)                         
                         UPDATE  UrlConfig
-                        SET UserAccessToken = @token, Version = @version, PhoneNumberId = @phone
+                        SET UserAccessToken = @token, Version = @version, PhoneNumberId = @phone, ApiUrl = @url
                     ELSE
-                        INSERT INTO UrlConfig (UserAccessToken, Version, PhoneNumberId)
-                        VALUES (@token, @version, @phone);
+                        INSERT INTO UrlConfig (UserAccessToken, Version, PhoneNumberId, ApiUrl)
+                        VALUES (@token, @version, @phone, @url);
                  "
                 Using cmdSave As New SqlCommand(querySave, conexion)
                     cmdSave.Parameters.AddWithValue("@token", txtUserAccessToken.Text)
                     cmdSave.Parameters.AddWithValue("@version", cmbVersion.SelectedItem.ToString())
                     cmdSave.Parameters.AddWithValue("@phone", txtPhoneNumberId.Text)
+                    cmdSave.Parameters.AddWithValue("@url", TextUrl.Text)
 
                     cmdSave.ExecuteNonQuery()
                 End Using
             End Using
 
-            LblMsg.Text = "Estado: Guardado con éxito"
-            LblMsg.ForeColor = Color.Green
+            MessageBox.Show("Guardado con éxito", "Estado", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
         Catch ex As Exception
-            LblMsg.Text = "Estado: Error - " & ex.Message
-            LblMsg.ForeColor = Color.Red
+            MessageBox.Show("Error, Verificar la conexión con la Base de datos", "Estado", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -62,4 +62,17 @@ Public Class WhatsAppConfig
         ' Seleccionar por defecto la primera versión
         cmbVersion.SelectedIndex = 0
     End Sub
+
+    Private Sub txtUserAccessToken_TextChanged_1(sender As Object, e As EventArgs) Handles txtUserAccessToken.TextChanged
+        txtUserAccessToken.Multiline = True
+        txtUserAccessToken.ScrollBars = ScrollBars.Vertical ' o ScrollBars.Both
+        txtUserAccessToken.WordWrap = True ' Para evitar saltos de línea automáticos
+        txtUserAccessToken.AcceptsReturn = False ' Para no permitir retornos de carro   
+    End Sub
+
+    Private Sub BtnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
+        Me.DialogResult = DialogResult.Cancel
+        Me.Close()
+    End Sub
 End Class
+

@@ -56,7 +56,7 @@ Partial Class Form1
         '
         'txtIdCliente
         '
-        Me.txtIdCliente.Location = New System.Drawing.Point(357, 68)
+        Me.txtIdCliente.Location = New System.Drawing.Point(356, 74)
         Me.txtIdCliente.Name = "txtIdCliente"
         Me.txtIdCliente.Size = New System.Drawing.Size(100, 20)
         Me.txtIdCliente.TabIndex = 2
@@ -80,7 +80,7 @@ Partial Class Form1
         Me.Controls.Add(Me.BtnSetting)
         Me.Controls.Add(Me.BtnSendMessageWindow)
         Me.Name = "Form1"
-        Me.Text = "Form1"
+        Me.Text = "Sistemas GESEM"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
