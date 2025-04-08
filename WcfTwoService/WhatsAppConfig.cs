@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Configuration;
 using System.Diagnostics;
 using System.Data;
@@ -14,6 +11,9 @@ namespace WcfTwoService
         // Variables para controlar la inicialización y manejo de errores
         private static bool _initialized = false;
         private static Exception _lastError = null;
+
+        //Variable para el manejo de tiempo
+        private static DateTime _lastRefreshTime = DateTime.MinValue;
 
         // Propiedades de configuración obtenidas desde la base de datos
         public static string AccessToken { get; private set; }
@@ -141,9 +141,29 @@ namespace WcfTwoService
             }
         }
         /// Verifica si la configuración ha sido correctamente inicializada antes de su uso.
+        /// Mejora el rendimiento al evitar múltiples consultas, pero mantiene los datos actualizados.
         public static void EnsureInitialized()
-        {
-            if (!_initialized)
+        { //Actualizar en intervalos de un minuto
+            TimeSpan refreshInterval = TimeSpan.FromMinutes(1);
+
+            if (!_initialized || (DateTime.Now - _lastRefreshTime) > refreshInterval)
+            {
+                try
+                {
+                    InitializeConfig();
+                    _lastRefreshTime = DateTime.Now;
+                    _initialized = true;
+                    _lastError = null; // Limpia error anterior si todo salió bien
+                }
+                catch(Exception ex)
+                {
+                    _initialized = false;
+                    _lastError = ex;
+                    throw new ApplicationException("Error al refrescar la configuración", ex);
+                }
+            }
+            // Si aún no está inicializado luego de intentar, lanza el error
+            if (!_initialized && _lastError != null)
             {
                 throw new ApplicationException("WhatsAppConfig no se inicializó correctamente", _lastError);
             }

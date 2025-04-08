@@ -1,20 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Web.UI;
-using System.Security.Authentication;
-using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
-using System.ServiceModel.Web;
-using System.CodeDom;
-
-using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
-using System.Diagnostics;
 using System.Web.Script.Serialization;
 
 namespace WcfTwoService
