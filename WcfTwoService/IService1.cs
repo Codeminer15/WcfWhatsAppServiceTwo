@@ -1,11 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 
 namespace WcfTwoService
 {
-	// NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de interfaz "IService1" en el código y en el archivo de configuración a la vez.
 	[ServiceContract]
 	public interface IService1
 	{
@@ -15,7 +15,15 @@ namespace WcfTwoService
                UriTemplate = "SendTemplateMessage",
                RequestFormat = WebMessageFormat.Json,
                ResponseFormat = WebMessageFormat.Json,
-               BodyStyle = WebMessageBodyStyle.Wrapped)] // Añade esta línea
+               BodyStyle = WebMessageBodyStyle.Wrapped)] 
         string SendTemplateMessage(string phoneNumber, string token, string templateId);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "SendTemplateBillingMessage",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped)]
+        string SendTemplateBillingMessage(string phoneNumber, string customerName, string fileNamePdf, string fileNameXml);
     }
 }
