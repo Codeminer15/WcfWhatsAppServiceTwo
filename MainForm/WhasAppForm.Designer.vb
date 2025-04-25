@@ -58,7 +58,7 @@ Partial Class WhasAppForm
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
-        Me.Label1.Location = New System.Drawing.Point(82, 101)
+        Me.Label1.Location = New System.Drawing.Point(27, 67)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(163, 21)
         Me.Label1.TabIndex = 1
@@ -68,7 +68,7 @@ Partial Class WhasAppForm
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(74, 147)
+        Me.Label2.Location = New System.Drawing.Point(19, 113)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(171, 21)
         Me.Label2.TabIndex = 2
@@ -78,7 +78,7 @@ Partial Class WhasAppForm
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
-        Me.Label3.Location = New System.Drawing.Point(134, 206)
+        Me.Label3.Location = New System.Drawing.Point(79, 182)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(111, 21)
         Me.Label3.TabIndex = 3
@@ -87,7 +87,7 @@ Partial Class WhasAppForm
         'txtName
         '
         Me.txtName.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtName.Location = New System.Drawing.Point(264, 104)
+        Me.txtName.Location = New System.Drawing.Point(196, 67)
         Me.txtName.Name = "txtName"
         Me.txtName.Size = New System.Drawing.Size(207, 29)
         Me.txtName.TabIndex = 4
@@ -104,7 +104,7 @@ Partial Class WhasAppForm
         'txtPhoneNumber
         '
         Me.txtPhoneNumber.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPhoneNumber.Location = New System.Drawing.Point(264, 144)
+        Me.txtPhoneNumber.Location = New System.Drawing.Point(196, 110)
         Me.txtPhoneNumber.Name = "txtPhoneNumber"
         Me.txtPhoneNumber.Size = New System.Drawing.Size(207, 29)
         Me.txtPhoneNumber.TabIndex = 6
@@ -112,7 +112,7 @@ Partial Class WhasAppForm
         'lblPdf
         '
         Me.lblPdf.AutoSize = True
-        Me.lblPdf.Location = New System.Drawing.Point(261, 206)
+        Me.lblPdf.Location = New System.Drawing.Point(206, 182)
         Me.lblPdf.Name = "lblPdf"
         Me.lblPdf.Size = New System.Drawing.Size(23, 13)
         Me.lblPdf.TabIndex = 7
@@ -121,7 +121,7 @@ Partial Class WhasAppForm
         'lblXml
         '
         Me.lblXml.AutoSize = True
-        Me.lblXml.Location = New System.Drawing.Point(261, 233)
+        Me.lblXml.Location = New System.Drawing.Point(206, 209)
         Me.lblXml.Name = "lblXml"
         Me.lblXml.Size = New System.Drawing.Size(24, 13)
         Me.lblXml.TabIndex = 8
@@ -140,7 +140,7 @@ Partial Class WhasAppForm
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
-        Me.Label5.Location = New System.Drawing.Point(115, 267)
+        Me.Label5.Location = New System.Drawing.Point(60, 243)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(130, 21)
         Me.Label5.TabIndex = 11
@@ -149,7 +149,7 @@ Partial Class WhasAppForm
         'lblPGH
         '
         Me.lblPGH.AutoSize = True
-        Me.lblPGH.Location = New System.Drawing.Point(261, 259)
+        Me.lblPGH.Location = New System.Drawing.Point(206, 235)
         Me.lblPGH.Name = "lblPGH"
         Me.lblPGH.Size = New System.Drawing.Size(23, 13)
         Me.lblPGH.TabIndex = 12
@@ -158,7 +158,7 @@ Partial Class WhasAppForm
         'lblXGH
         '
         Me.lblXGH.AutoSize = True
-        Me.lblXGH.Location = New System.Drawing.Point(261, 284)
+        Me.lblXGH.Location = New System.Drawing.Point(206, 260)
         Me.lblXGH.Name = "lblXGH"
         Me.lblXGH.Size = New System.Drawing.Size(24, 13)
         Me.lblXGH.TabIndex = 13
@@ -167,7 +167,7 @@ Partial Class WhasAppForm
         'lblServiceStatus
         '
         Me.lblServiceStatus.AutoSize = True
-        Me.lblServiceStatus.Location = New System.Drawing.Point(261, 324)
+        Me.lblServiceStatus.Location = New System.Drawing.Point(206, 300)
         Me.lblServiceStatus.Name = "lblServiceStatus"
         Me.lblServiceStatus.Size = New System.Drawing.Size(46, 13)
         Me.lblServiceStatus.TabIndex = 14
@@ -175,7 +175,7 @@ Partial Class WhasAppForm
         '
         'btnTestConnection
         '
-        Me.btnTestConnection.Location = New System.Drawing.Point(180, 319)
+        Me.btnTestConnection.Location = New System.Drawing.Point(125, 295)
         Me.btnTestConnection.Name = "btnTestConnection"
         Me.btnTestConnection.Size = New System.Drawing.Size(75, 23)
         Me.btnTestConnection.TabIndex = 15
@@ -205,7 +205,7 @@ Partial Class WhasAppForm
         '
         Me.CheckBoxPdf.AutoSize = True
         Me.CheckBoxPdf.Enabled = False
-        Me.CheckBoxPdf.Location = New System.Drawing.Point(616, 90)
+        Me.CheckBoxPdf.Location = New System.Drawing.Point(561, 56)
         Me.CheckBoxPdf.Name = "CheckBoxPdf"
         Me.CheckBoxPdf.Size = New System.Drawing.Size(47, 17)
         Me.CheckBoxPdf.TabIndex = 18
@@ -216,7 +216,7 @@ Partial Class WhasAppForm
         '
         Me.CheckBoxXml.AutoSize = True
         Me.CheckBoxXml.Enabled = False
-        Me.CheckBoxXml.Location = New System.Drawing.Point(616, 115)
+        Me.CheckBoxXml.Location = New System.Drawing.Point(561, 81)
         Me.CheckBoxXml.Name = "CheckBoxXml"
         Me.CheckBoxXml.Size = New System.Drawing.Size(48, 17)
         Me.CheckBoxXml.TabIndex = 19
@@ -226,7 +226,8 @@ Partial Class WhasAppForm
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(264, 180)
+        Me.Label6.ForeColor = System.Drawing.Color.DarkRed
+        Me.Label6.Location = New System.Drawing.Point(193, 142)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(424, 13)
         Me.Label6.TabIndex = 20

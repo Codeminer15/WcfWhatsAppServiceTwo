@@ -19,13 +19,33 @@ Public Class WhasAppForm
     }
     Public Sub New(nombre As String, telefono As String, xml As String, pdf As String, state As String)
         InitializeComponent()
-
+        ApplyStyles() ' Aplicar estilos desde la clase helper
         ' Asignar los valores a los controles del formulario
         txtName.Text = nombre
         txtPhoneNumber.Text = telefono
         lblPdf.Text = xml
         lblXml.Text = pdf
         lblState.Text = state
+    End Sub
+
+    Private Sub ApplyStyles()
+        ' Aplicar estilos del formulario
+        UIHelpers.ApplyFormStyles(Me)
+
+        ' Aplicar estilos a controles específicos
+        UIHelpers.StyleTextBox(txtName)
+        UIHelpers.StyleTextBox(txtPhoneNumber)
+
+        UIHelpers.StyleButton(btnSendWhatsApp, Color.FromArgb(0, 122, 204))
+        UIHelpers.StyleButton(btnTestConnection, Color.FromArgb(16, 110, 190))
+        UIHelpers.StyleButton(btnViewLogs, Color.FromArgb(100, 100, 100))
+        UIHelpers.StyleButton(BtnCancel, Color.FromArgb(220, 53, 69))
+
+        ' Agregar tooltips
+        UIHelpers.AddToolTip(btnTestConnection, "Verificar conexión con el servicio")
+        UIHelpers.AddToolTip(btnViewLogs, "Ver registro de actividades")
+        UIHelpers.AddToolTip(BtnCancel, "Cancelar y cerrar")
+        UIHelpers.AddToolTip(btnSendWhatsApp, "Enviar mensaje por WhatsApp")
     End Sub
 
     Private Sub BtnSendWhatsApp_Click(sender As Object, e As EventArgs) Handles btnSendWhatsApp.Click

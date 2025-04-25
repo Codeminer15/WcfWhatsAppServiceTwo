@@ -34,7 +34,7 @@ Partial Class Form1
         Me.BtnSendMessageWindow.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnSendMessageWindow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnSendMessageWindow.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.BtnSendMessageWindow.Location = New System.Drawing.Point(319, 200)
+        Me.BtnSendMessageWindow.Location = New System.Drawing.Point(271, 207)
         Me.BtnSendMessageWindow.Name = "BtnSendMessageWindow"
         Me.BtnSendMessageWindow.Size = New System.Drawing.Size(115, 47)
         Me.BtnSendMessageWindow.TabIndex = 0
@@ -47,7 +47,7 @@ Partial Class Form1
         Me.BtnSetting.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnSetting.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnSetting.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.BtnSetting.Location = New System.Drawing.Point(319, 125)
+        Me.BtnSetting.Location = New System.Drawing.Point(271, 132)
         Me.BtnSetting.Name = "BtnSetting"
         Me.BtnSetting.Size = New System.Drawing.Size(115, 47)
         Me.BtnSetting.TabIndex = 1
@@ -56,7 +56,7 @@ Partial Class Form1
         '
         'txtIdCliente
         '
-        Me.txtIdCliente.Location = New System.Drawing.Point(356, 74)
+        Me.txtIdCliente.Location = New System.Drawing.Point(308, 81)
         Me.txtIdCliente.Name = "txtIdCliente"
         Me.txtIdCliente.Size = New System.Drawing.Size(100, 20)
         Me.txtIdCliente.TabIndex = 2
@@ -64,7 +64,7 @@ Partial Class Form1
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(275, 74)
+        Me.Label1.Location = New System.Drawing.Point(227, 81)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(51, 13)
         Me.Label1.TabIndex = 3
@@ -74,7 +74,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(647, 326)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtIdCliente)
         Me.Controls.Add(Me.BtnSetting)
